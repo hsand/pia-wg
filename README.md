@@ -27,3 +27,7 @@ The script should generate a `.conf` file that can be imported into the WireGuar
 
 ## Linux
 todo
+
+
+## Check everything is working
+Visit https://dnsleaktest.com/ to see your new IP and check for DNS leaks.
