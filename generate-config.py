@@ -55,3 +55,4 @@ with open(config_file, 'w') as file:
     file.write('PublicKey = {}\n'.format(pia.connection['server_key']))
     file.write('Endpoint = {}:1337\n'.format(pia.connection['server_ip']))
     file.write('AllowedIPs = 0.0.0.0/0\n')
+    file.write('PersistentKeepalive = 25\n')
