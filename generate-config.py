@@ -7,15 +7,7 @@ from datetime import datetime
 pia = piawg()
 
 # Generate public and private key pair
-while True:
-    if os.path.exists('privatekey') or os.path.exists('publickey'):
-        value = input("Key files already exist. If you want to overwrite them type 'YES': ")
-        if value == 'YES':
-            pia.generate_keys()
-            break
-    else:
-        pia.generate_keys()
-        break
+pia.generate_keys()
 
 # Select region
 title = 'Please choose a region: '

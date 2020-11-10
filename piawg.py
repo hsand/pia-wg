@@ -2,7 +2,7 @@ import requests
 import json
 from requests_toolbelt.adapters import host_header_ssl
 import urllib3
-import os
+import subprocess
 import urllib.parse
 
 # PIA uses the CN attribute for certificates they issue themselves.
@@ -51,15 +51,9 @@ class piawg:
             return False
 
     def generate_keys(self):
-        os.system('wg genkey > privatekey')
-        os.system('wg pubkey < privatekey > publickey')
-
-        # Read newly created keys
-        with open('publickey', 'r') as file:
-            self.publickey = file.read().splitlines()[0]
-
-        with open('privatekey', 'r') as file:
-            self.privatekey = file.read().splitlines()[0]
+        self.privatekey = subprocess.run(['wg', 'genkey'], stdout=subprocess.PIPE, encoding="utf-8").stdout.strip()
+        self.publickey = subprocess.run(['wg', 'pubkey'], input=self.privatekey, stdout=subprocess.PIPE,
+                                        encoding="utf-8").stdout.strip()
 
     def addkey(self):
         # Get common name and IP address for wireguard endpoint in region
