@@ -14,6 +14,7 @@ title = 'Please choose a region: '
 options = sorted(list(pia.server_list.keys()))
 option, index = pick(options, title)
 pia.set_region(option)
+print("Selected '{}'".format(option))
 
 # Get token
 while True:
