@@ -1,6 +1,5 @@
 from piawg import piawg
 from pick import pick
-import os
 from getpass import getpass
 from datetime import datetime
 
