@@ -25,9 +25,34 @@ Follow the prompts. When finished, you can exit the virtual environment with the
 
 The script should generate a `.conf` file that can be imported into the WireGuard utility.
 
-## Linux
-todo
+## Linux (Debian/Ubuntu)
+Install dependencies, clone pia-wg project, and create a virual Python environment:
+```
+sudo apt install git python3-venv wireguard
+git clone https://github.com/hsand/pia-wg.git
+cd pia-wg
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
+Fix [bug](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904) with wg-quick
+```
+sudo ln -s /usr/bin/resolvectl /usr/local/bin/resolvconf
+```
+
+Run the tool, and follow the prompts
+```
+python3 generate-config.py
+```
+
+Copy the `.conf` file to `/etc/wireguard/`, and start the interface
+```
+sudo cp PIA-Iceland-1605054556.conf /etc/wireguard/wg0.conf
+sudo wg-quick up wg0
+```
+
+You can shut down the interface with `sudo wg-quick down wg0`
 
 ## Check everything is working
 Visit https://dnsleaktest.com/ to see your new IP and check for DNS leaks.
