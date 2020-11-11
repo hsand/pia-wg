@@ -5,7 +5,7 @@ This is a Python utility that generates WireGuard configuration files for the Pr
 
 This was created by reverse engineering the [manual-connections](https://github.com/pia-foss/manual-connections) script released by PIA. At this stage, the tool is a quick and dirty attempt to get things working. It could break at any moment if PIA makes changes to their API.
 
-pia-wg *should* run on both Windows and Linux.
+pia-wg runs on both Windows and Linux.
 
 ## Windows
 * Install the latest version of [Python 3](https://www.python.org/downloads/windows/)
