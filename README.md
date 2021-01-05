@@ -28,17 +28,12 @@ The script should generate a `.conf` file that can be imported into the WireGuar
 ## Linux (Debian/Ubuntu)
 Install dependencies, clone pia-wg project, and create a virual Python environment:
 ```
-sudo apt install git python3-venv wireguard
+sudo apt install git python3-venv wireguard openresolv
 git clone https://github.com/hsand/pia-wg.git
 cd pia-wg
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
-
-Fix [bug](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904) with wg-quick
-```
-sudo ln -s /usr/bin/resolvectl /usr/local/bin/resolvconf
 ```
 
 Run the tool, and follow the prompts
