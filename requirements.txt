@@ -2,6 +2,6 @@ certifi==2021.5.30
 chardet==3.0.4
 idna==2.10
 pick==1.0.0
-requests==2.24.0
+requests==2.26.0
 requests-toolbelt==0.9.1
 urllib3==1.26.6
