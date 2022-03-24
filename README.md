@@ -18,7 +18,7 @@ Open a command prompt and navigate to the directory where you placed the pia-wg 
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-generate-config.py
+python generate-config.py
 ```
 
 Follow the prompts. When finished, you can exit the virtual environment with the `deactivate` command.
