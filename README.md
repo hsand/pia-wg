@@ -51,3 +51,56 @@ You can shut down the interface with `sudo wg-quick down wg0`
 
 ## Check everything is working
 Visit https://dnsleaktest.com/ to see your new IP and check for DNS leaks.
+
+## Options
+
+The following options are supported:
+
+```
+$ python generate-config.py -h
+usage: generate-config.py [-h] [-r] [--auto-region] [--sort-latency]
+
+Generate PIA wireguard config
+
+optional arguments:
+  -h, --help      show this help message and exit
+  -r , --region   Allowed values are AU Melbourne, AU Perth, AU Sydney,
+                  Albania, Algeria, Andorra, Argentina, Armenia, Austria,
+                  Bahamas, Bangladesh, Belgium, Bosnia and Herzegovina,
+                  Brazil, CA Montreal, CA Ontario, CA Toronto, CA Vancouver,
+                  Cambodia, Chile, China, Colombia, Costa Rica, Croatia,
+                  Cyprus, Czech Republic, DE Berlin, DE Frankfurt, DK
+                  Copenhagen, DK Streaming Optimized, ES Madrid, ES Valencia,
+                  Egypt, Estonia, FI Helsinki, FI Streaming Optimized, France,
+                  Georgia, Greece, Greenland, Hong Kong, Hungary, IT Milano,
+                  IT Streaming Optimized, Iceland, India, Indonesia, Ireland,
+                  Isle of Man, Israel, JP Streaming Optimized, JP Tokyo,
+                  Kazakhstan, Latvia, Liechtenstein, Lithuania, Luxembourg,
+                  Macao, Malaysia, Malta, Mexico, Moldova, Monaco, Mongolia,
+                  Montenegro, Morocco, Netherlands, New Zealand, Nigeria,
+                  Norway, Panama, Philippines, Poland, Portugal, Qatar,
+                  Romania, SE Stockholm, SE Streaming Optimized, Saudi Arabia,
+                  Serbia, Singapore, Slovakia, Slovenia, South Africa, Sri
+                  Lanka, Switzerland, Taiwan, Turkey, UK London, UK
+                  Manchester, UK Southampton, UK Streaming Optimized, US
+                  Atlanta, US Baltimore, US California, US Chicago, US Denver,
+                  US East, US East Streaming Optimized, US Florida, US
+                  Honolulu, US Houston, US Las Vegas, US New York, US Salt
+                  Lake City, US Seattle, US Silicon Valley, US Texas, US
+                  Washington DC, US West, US West Streaming Optimized, US
+                  Wilmington, Ukraine, United Arab Emirates, Venezuela,
+                  Vietnam
+  --auto-region   Automatically select the lowest latency region (requires
+                  root)
+  --sort-latency  Display lowest latency regions first (requires root)
+```
+
+## Config file
+
+You can store your user, pass, and region in a `config.yaml` file:
+```
+pia:
+    username: pXXXXXXX
+    password: 1234567890abcde
+    region: "AU Melbourne"
+```
