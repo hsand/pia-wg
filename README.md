@@ -97,7 +97,7 @@ optional arguments:
 
 ## Config file
 
-You can store your user, pass, and region in a `config.yaml` file:
+You can store your username, password, and region in a `config.yaml` file in the same directory as the script:
 ```
 pia:
     username: pXXXXXXX
