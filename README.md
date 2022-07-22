@@ -58,7 +58,7 @@ The following options are supported:
 
 ```
 $ python generate-config.py -h
-usage: generate-config.py [-h] [-r] [--auto-region] [--sort-latency]
+usage: generate-config.py [-h] [-r <region>] [--sort-latency]
 
 Generate PIA wireguard config
 
@@ -90,8 +90,6 @@ optional arguments:
                   Washington DC, US West, US West Streaming Optimized, US
                   Wilmington, Ukraine, United Arab Emirates, Venezuela,
                   Vietnam
-  --auto-region   Automatically select the lowest latency region (requires
-                  root)
   --sort-latency  Display lowest latency regions first (requires root)
 ```
 
