@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from piawg import piawg
 from pick import pick
 from getpass import getpass
@@ -12,8 +14,7 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser(description='Generate PIA wireguard config')
-    parser.add_argument('-r', '--region', dest='region', choices=regions, help='Allowed values are '+', '.join(regions), metavar='')
-    parser.add_argument('--auto-region', action='store_true', help='Automatically select the lowest latency region (requires root)')
+    parser.add_argument('-r', '--region', dest='region', choices=["auto"]+regions, help='Allowed values are '+', '.join(regions), metavar='')
     parser.add_argument('--sort-latency', action='store_true', help='Display lowest latency regions first (requires root)')
     args = parser.parse_args()
 
@@ -30,16 +31,17 @@ def main():
         region = config['pia']['region']
     except:
         region = args.region
-    if region is None:
+    if region in (None, "auto"):
         title = 'Please choose a region: '
-        if args.sort_latency or args.auto_region:
+        # sort by latency
+        if args.sort_latency or region == "auto":
             if os.getuid() != 0:
                 raise Exception("--sort-latency requires root")
             print("Measuring latency to regions...")
             wg_latencies = ping_latencies([pia.server_list[x]['servers']['wg'][0]['ip'] for x in regions])
             region_latencies = {x: wg_latencies[pia.server_list[x]['servers']['wg'][0]['ip']] for x in regions};
             closest_regions = sorted(region_latencies.keys(), key=lambda k: region_latencies[k])
-            if args.auto_region:
+            if region == "auto":
                 region = closest_regions[0]
             else:
                 region, index = pick(closest_regions, title, options_map_func=lambda x: "{} ({} ms)".format(x,region_latencies[x]))
