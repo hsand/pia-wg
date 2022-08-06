@@ -35,8 +35,6 @@ def main():
         title = 'Please choose a region: '
         # sort by latency
         if args.sort_latency or region == "auto":
-            if os.getuid() != 0:
-                raise Exception("--sort-latency requires root")
             print("Measuring latency to regions...")
             wg_latencies = ping_latencies([pia.server_list[x]['servers']['wg'][0]['ip'] for x in regions])
             region_latencies = {x: wg_latencies[pia.server_list[x]['servers']['wg'][0]['ip']] for x in regions};
@@ -97,7 +95,11 @@ def main():
         file.write('PersistentKeepalive = 25\n')
 
 def ping_latencies(hosts):
-    results = multiping(addresses=hosts, count=3, concurrent_tasks=len(hosts), timeout=0.5)
+    if os.getuid() != 0:
+        raise Exception("measuring latencies requires root")
+    # trying to ping everything at once seems to result in inaccurate timing
+    # the default concurrent_tasks=50 seems to work well
+    results = multiping(addresses=hosts, count=3, timeout=0.5)
     # workaround: lossy pings have their rtt set to 0.0 by icmplib
     return { x.address:(500, x.avg_rtt)[x.avg_rtt > 0] for x in results }
 
