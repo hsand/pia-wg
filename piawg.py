@@ -4,6 +4,7 @@ from requests_toolbelt.adapters import host_header_ssl
 import urllib3
 import subprocess
 import urllib.parse
+import pathlib
 
 # PIA uses the CN attribute for certificates they issue themselves.
 # This will be deprecated by urllib3 at some point in the future, and generates a warning (that we ignore).
@@ -19,6 +20,7 @@ class piawg:
         self.publickey = None
         self.privatekey = None
         self.connection = None
+        self.current_dir = pathlib.Path(__file__).parent.resolve()
 
     def get_server_list(self):
         r = requests.get('https://serverlist.piaservers.net/vpninfo/servers/v4')
@@ -39,7 +41,7 @@ class piawg:
         # https://toolbelt.readthedocs.io/en/latest/adapters.html#requests_toolbelt.adapters.host_header_ssl.HostHeaderSSLAdapter
         s = requests.Session()
         s.mount('https://', host_header_ssl.HostHeaderSSLAdapter())
-        s.verify = 'ca.rsa.4096.crt'
+        s.verify = pathlib.Path.joinpath(self.current_dir ,'ca.rsa.4096.crt')
 
         r = s.get("https://{}/authv3/generateToken".format(meta_ip), headers={"Host": meta_cn},
                   auth=(username, password))
@@ -62,7 +64,7 @@ class piawg:
 
         s = requests.Session()
         s.mount('https://', host_header_ssl.HostHeaderSSLAdapter())
-        s.verify = 'ca.rsa.4096.crt'
+        s.verify = pathlib.Path.joinpath(self.current_dir ,'ca.rsa.4096.crt')
 
         r = s.get("https://{}:1337/addKey?pt={}&pubkey={}".format(ip, urllib.parse.quote(self.token),
                                                                   urllib.parse.quote(self.publickey)), headers={"Host": cn})
