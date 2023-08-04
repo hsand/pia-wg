@@ -1,6 +1,6 @@
 icmplib==3.0.3
 pick==1.0.0
-PyYAML==6.0
+PyYAML==6.0.1
 requests==2.26.0
 requests_toolbelt==0.9.1
 urllib3==1.26.6
