@@ -3,7 +3,7 @@ charset-normalizer==2.0.12
 icmplib==3.0.3
 idna==3.3
 pick==1.0.0
-PyYAML==6.0
+PyYAML==6.0.1
 requests==2.26.0
 requests-toolbelt==0.9.1
 routeros==0.1.1
