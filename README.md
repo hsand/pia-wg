@@ -60,7 +60,7 @@ python configure-ros.py -i wg-pia-il -f PIA-Iceland-1605054556.conf
 - added new /interface/wireguard/peers
 - added new /ip/dns/static
 ```
-You'll then have an interface named wg-pia-il, and it's up to you to configure what traffic routes through it.  A static dns entry for the PIA gateway IP is added as 'gw-<ifname>' to help you identify it.
+You'll then have an interface named wg-pia-il, and it's up to you to configure what traffic routes through it.  A static dns entry for the PIA gateway IP is added as 'gw-wg-pia-il' to help you identify it.
 
 If an interface of the supplied name already exists, its settings will be updated.  To remove interfaces, use the `-d` option:
 ```
