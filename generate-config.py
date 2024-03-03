@@ -6,7 +6,11 @@ from getpass import getpass
 from datetime import datetime
 from icmplib import multiping
 from pprint import pprint
+from wgconfig import WGConfig
 import argparse, collections, os, sys, yaml
+
+# comment to debug
+sys.tracebacklimit = 0
 
 def main():
     pia = piawg()
@@ -16,11 +20,13 @@ def main():
     parser = argparse.ArgumentParser(description='Generate PIA wireguard config')
     parser.add_argument('-r', '--region', dest='region', choices=["auto"]+regions, help='Allowed values are '+', '.join(regions), metavar='')
     parser.add_argument('--sort-latency', action='store_true', help='Display lowest latency regions first (requires root)')
+    parser.add_argument('-f', '--config', help='Name of the generated config file')
     args = parser.parse_args()
 
     # Load config
     config = None
     file = os.path.join(os.path.dirname(__file__), 'config.yaml')
+    file = os.path.normpath(file)
     if os.path.exists(file):
         print("Loading config from {}".format(file))
         with open(file, 'r') as f:
@@ -79,20 +85,27 @@ def main():
         print(response)
 
     # Build config
-    timestamp = int(datetime.now().timestamp())
-    location = pia.region.replace(' ', '-')
-    config_file = 'PIA-{}-{}.conf'.format(location, timestamp)
+    if args.config:
+        config_file = args.config
+    else:
+        timestamp = int(datetime.now().timestamp())
+        location = pia.region.replace(' ', '-')
+        config_file = 'PIA-{}-{}.conf'.format(location, timestamp)
     print("Saving configuration file {}".format(config_file))
-    with open(config_file, 'w') as file:
-        file.write('[Interface]\n')
-        file.write('Address = {}\n'.format(pia.connection['peer_ip']))
-        file.write('PrivateKey = {}\n'.format(pia.privatekey))
-        file.write('DNS = {},{}\n\n'.format(pia.connection['dns_servers'][0], pia.connection['dns_servers'][1]))
-        file.write('[Peer]\n')
-        file.write('PublicKey = {}\n'.format(pia.connection['server_key']))
-        file.write('Endpoint = {}:1337\n'.format(pia.connection['server_ip']))
-        file.write('AllowedIPs = 0.0.0.0/0\n')
-        file.write('PersistentKeepalive = 25\n')
+    if config_file[0] != '/':
+        config_file = os.path.join(os.path.dirname(__file__), config_file)
+        config_file = os.path.normpath(config_file)
+    wgc = WGConfig(config_file)
+    wgc.add_attr(None, 'Address', pia.connection['peer_ip'])
+    wgc.add_attr(None, 'PrivateKey', pia.privatekey)
+    for dns_server in pia.connection['dns_servers'][0:2]:
+        wgc.add_attr(None, 'DNS', dns_server)
+    peer = pia.connection['server_key']
+    wgc.add_peer(peer, '# ' + pia.region)
+    wgc.add_attr(peer, 'Endpoint', pia.connection['server_ip'] + ':1337')
+    wgc.add_attr(peer, 'AllowedIPs', '0.0.0.0/0')
+    wgc.add_attr(peer, 'PersistentKeepalive', '25')
+    wgc.write_file()
 
 def ping_latencies(hosts):
     if os.getuid() != 0:
