@@ -53,7 +53,7 @@ You can shut down the interface with `sudo wg-quick down wg0`
 
 If you want to send the Wireguard config to a Mikrotik router, use configure-ros.py:
 ```
-python configure-ros.py -i wg-pia-il -f PIA-Iceland-1605054556.conf
+$ ./configure-ros.py -i wg-pia-il -f PIA-Iceland-1605054556.conf
 - loading config from ./config.yaml
 - added new /interface/wireguard
 - added new /ip/address
@@ -64,7 +64,7 @@ You'll then have an interface named wg-pia-il, and it's up to you to configure w
 
 If an interface of the supplied name already exists, its settings will be updated.  To remove interfaces, use the `-d` option:
 ```
-python configure-ros.py -i wg-pia-il -d
+$ ./configure-ros.py -i wg-pia-il -d
 - loading config from config.yaml
 - removed entry in /interface/wireguard/peers
 - removed entry in /ip/address
@@ -80,7 +80,7 @@ Visit https://dnsleaktest.com/ to see your new IP and check for DNS leaks.
 The following options are supported:
 
 ```
-$ python generate-config.py -h
+$ ./generate-config.py -h
 usage: generate-config.py [-h] [-r] [--sort-latency] [-f CONFIG]
 
 Generate PIA wireguard config
@@ -133,7 +133,7 @@ optional arguments:
   -f CONFIG, --config CONFIG
                         Name of the generated config file
 
-python configure-ros.py -h
+$ ./configure-ros.py -h
 usage: configure-ros.py [-h] [-d] -i INTERFACE -f CONFIG
 
 Configure RouterOS with wireguard config
